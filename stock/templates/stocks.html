@@ -3,48 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>List of Stocks</title>
-    <style>
-    table {
-	width: 100%;
-	border: none;
-	margin-bottom: 20px;
-    }
-    table thead th {
-	font-weight: bold;
-	text-align: left;
-	border: none;
-	padding: 10px 15px;
-	background: #d8d8d8;
-	font-size: 14px;
-    }
-    table thead tr th:first-child {
-	border-radius: 8px 0 0 8px;
-    }
-    table thead tr th:last-child {
-	border-radius: 0 8px 8px 0;
-    }
-    table tbody td {
-	text-align: left;
-	border: none;
-	padding: 10px 15px;
-	font-size: 14px;
-	vertical-align: top;
-    }
-    table tbody tr:nth-child(even){
-	background: #f3f3f3;
-    }
-    table tbody tr td:first-child {
-	border-radius: 8px 0 0 8px;
-    }
-    table tbody tr td:last-child {
-	border-radius: 0 8px 8px 0;
-    }
-    </style>
 </head>
 <body>
-    <table>
+    {% extends 'base.html' %}
+    {% block content %}
+    <table class="table">
         <thead>
             <tr>
+                <th>Logo</th>
                 <th>Ticker</th>
                 <th>Company</th>
                 <th>Last close price</th>
@@ -53,12 +19,19 @@
         <tbody>
         {% for stock in stocks %}
             <tr>
+                <td> 
+                    {% if stock.logo %}
+                    <img src="{{ MEDIA_URL }}/{{ stock.logo }}" width="40" />
+                    {% endif %}
+                </td>
                 <td>{{ stock.ticker }}</td>
                 <td>{{ stock.name }}</td>
                 <td>{{ stock.get_random_price }}{{ stock.currency.sign }}</td>
+                <td><a href="{% url 'stock:detail' stock.pk %}">Купить/Продать</a></td> 
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% endblock %}
 </body>
 </html>
