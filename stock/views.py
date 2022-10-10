@@ -91,7 +91,9 @@ def stock_sell(request, pk):
         acc_currency, created = AccountCurrency.objects.get_or_create(account=request.user.account, currency=stock.currency,
                                                                       defaults={'amount': 0})
         if acc_stock.amount < amount:
-            form.add_error(None, f'На счёте недостаточно акций {stock.logo}')
+            form.add_error(None, f'На счёте недостаточно акций')
+        elif amount<=0:
+            form.add_error(None, f'Неверное количество акций')
         else:
             acc_currency.amount = acc_currency.amount + sell_cost
             acc_stock.amount = acc_stock.amount - amount
